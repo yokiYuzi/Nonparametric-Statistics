@@ -1,0 +1,14 @@
+changdu<-c(64,65,65,66,67,rep(68,4),rep(69,3),rep(70,4),rep(71,5),72,72,72,73,73,73,75,rep(77,6),78,83);
+print(changdu);
+#求样本中位数的置信区间
+#求鱼长度的中位数
+fish.median<-median(changdu);
+splus<-sum(changdu>fish.median);
+sminus<-sum(changdu<fish.median);
+k=min(splus,sminus);
+n=splus+sminus;
+binom.test(k,n,0.5);
+wilcox.test(changdu-fish.median);
+plot(density(changdu));
+ks.test(changdu,pnorm,maen(changdu))
+#则有中位数的置信区间有：

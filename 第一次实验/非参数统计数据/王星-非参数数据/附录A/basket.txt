@@ -1,0 +1,19 @@
+ID V1 V2 V3 V4 V5
+1   A A  D   B A 
+2   A B  A   C B 
+3   E A  E   A A
+4   A B  B   A B
+5   A B  D   B B
+6   E A  B   C B 
+7   B B  C   D A
+8   B C  D   E F
+9   D B  A   D S
+10  D A  B   F E
+11  A V  D   A D
+12  B A  B   B S
+13  E A  T   A B
+14  A B  U   D B
+15  A C  A   R A 
+16  B D  B   D B 
+17  A R  B   R V
+

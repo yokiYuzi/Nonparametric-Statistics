@@ -1,0 +1,46 @@
+BMq.test=function(x,y,q,alt)
+{
+  xy=c(x,y)
+  quantile.xy=quantile(xy,q)
+  t=sum(xy>quantile.xy)
+  lx=length(x[x!=quantile.xy])
+  ly=length(y[y!=quantile.xy])
+  lxy=lx+ly
+  A=sum(x>quantile.xy)
+  z=(A-lx*t/(lx+ly))/(lx*ly*t*(lx+ly-t)/(lx+ly)^3)^0.5
+  if(A>(min(lx,t)/2)){
+    z1=(A+0.5-lx*t/(lx+ly))/(lx*ly*t*(lx+ly-t)/(lx+ly)^3)^0.5
+  }
+  else{
+    z1=(A-0.5-lx*t/(lx+ly))/(lx*ly*t*(lx+ly-t)/(lx+ly)^3)^0.5
+  }
+  if(alt=="greater"){
+    pv1=1-phyper(A,lx,ly,t)
+    pv2=1-pnorm(z)
+    pv3=1-pnorm(z1)
+  }
+  if(alt=="less"){
+    pv1=phyper(A,lx,ly,t)
+    pv2=pnorm(z)
+    pv3=pnorm(z1)
+  }
+  if(alt=="two.side"){
+    pv1=2*min(1-phyper(A,lx,ly,t),phyper(A,lx,ly,t))
+    pv2=2*min(1-pnorm(z),pnorm(z))
+    pv3=2*min(1-pnorm(z1),pnorm(z1))
+  }
+  conting.table<-matrix(c(A,lx-A,lx,t-A,ly-(t-A),ly,t,lxy-t,lxy),3,3)
+  col.name<-c("X","Y","X+Y");
+  row.name<-c(">MQXY","<MQXY","TOTAL")
+  dimnames(conting.table)=list(row.name,col.name)
+  list(contingency.table=conting.table,p.value=pv1,pvnorm=pv2,pvnr=pv3)
+}
+#假设两组数据的中位数的相同的，既有H0：讲课课时没有差异，从中位数判断应该相等 
+a<-c(321,266,256,386,330,329,303,334,299,221,365,250,258,342,243,298,238,317);
+b<-c(488,593,507,428,807,342,512,350,672,589,665,549,451,492,514,391,366,469);
+BMq.test(a,b,0.5,"two.side")
+#$p.value= 5.230556e-06，其P值过低，既置信区间很小，拒绝原假设
+#用Wilcox检验两组数据
+#假设两组数据没有中位数的差距
+wilcox.test(a,b)
+#p-value = 7.977e-07，P值过小，认为置信区间过小，拒绝原假设
